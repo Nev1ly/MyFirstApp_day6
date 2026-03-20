@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MyFirstApp</string>
+    <string name="main_text">My first app</string>
+    <string name="student_info">Student: Krasnodarova\nGroup: 3.2.ISiP-2</string>
+    <string name="avatar_description">Avatar author</string>
+    <string name="menu_description">Menu</string>
+    <string name="like_description">Like</string>
+    <string name="share_description">Share</string>
+    <string name="views_description">Views</string>
+</resources>
