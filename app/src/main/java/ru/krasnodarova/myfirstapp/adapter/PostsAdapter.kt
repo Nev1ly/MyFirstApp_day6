@@ -5,8 +5,7 @@ import androidx.recyclerview.widget.ListAdapter
 import ru.krasnodarova.myfirstapp.databinding.CardPostBinding
 import ru.krasnodarova.myfirstapp.dto.Post
 class PostsAdapter(
-    private val onLikeClickListener: (Post) -> Unit,
-    private val onShareClickListener: (Post) -> Unit
+    private val listener: OnPostInteractionListener
 ) : ListAdapter<Post, PostViewHolder>(PostDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = CardPostBinding.inflate(
@@ -14,10 +13,11 @@ class PostsAdapter(
             parent,
             false
         )
-        return PostViewHolder(binding, onLikeClickListener, onShareClickListener)
+        return PostViewHolder(binding, listener)
     }
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        val post = getItem(position)  // getItem предоставляет ListAdapter
+        val post = getItem(position)
         holder.bind(post)
     }
 }
+
