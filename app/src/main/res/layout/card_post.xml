@@ -104,7 +104,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:textColor="@color/purple_500"
-                android:text="Присоединяйся и будь здоровым вместе с нами!" />
+                android:text="Переходи на наш сайт и узнавай больше!" />
 
             <TextView
                 android:id="@+id/link_url"
@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
                 android:textColor="@android:color/darker_gray"
-                android:text="HealthyBuddy.ru" />
+                android:text="www.ru" />
         </LinearLayout>
 
         <LinearLayout
