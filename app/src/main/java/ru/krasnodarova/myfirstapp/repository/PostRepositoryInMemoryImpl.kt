@@ -14,14 +14,15 @@ class PostRepositoryInMemoryImpl : PostRepository {
     private val currentUserName = "Я"
     private var posts = listOf(
         Post(
-        id = 1,
-        author = "Книжный клуб «Переплёт»",
-        content = "Друзья, на этой неделе мы погружаемся в мир великого романа Михаила Булгакова — «Мастер и Маргарита»! Делитесь своими любимыми цитатами, впечатлениями и теориями. Какая сцена вас тронула больше всего? Присоединяйтесь к обсуждению в комментариях!",
-        published = "12 марта в 08:06",
-        likedByMe = false,
-        likes = 1420,
-        shares = 310,
-        views = 9800
+            id = 1,
+            author = "Книжный клуб «Переплёт»",
+            content = "Друзья, на этой неделе мы погружаемся в мир великого романа Михаила Булгакова — «Мастер и Маргарита»! Делитесь своими любимыми цитатами, впечатлениями и теориями. Какая сцена вас тронула больше всего? Присоединяйтесь к обсуждению в комментариях!",
+            published = "12 марта в 08:06",
+            likedByMe = false,
+            likes = 1420,
+            shares = 310,
+            views = 9800,
+            video = null
         ),
         Post(
             id = 2,
@@ -31,7 +32,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             likedByMe = true,
             likes = 3042,
             shares = 89,
-            views = 23000
+            views = 23000,
+            video = "https://www.youtube.com/watch?v=ojVA7Rs4gtI"
         ),
         Post(
             id = 3,

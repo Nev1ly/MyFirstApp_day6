@@ -7,16 +7,19 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 <!-- Список постов -->
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/list"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-    app:layout_constraintBottom_toTopOf="@+id/editBarrier"
-    app:layout_constraintTop_toTopOf="parent"
-    tools:listitem="@layout/card_post" />
-<!-- Барьер, разделяющий список и панель ввода -->
-<androidx.constraintlayout.widget.Barrier
+    <!-- Барьер, разделяющий список и панель ввода -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/editBarrier"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp"
+        tools:listitem="@layout/card_post" />
+
+    <androidx.constraintlayout.widget.Barrier
     android:id="@+id/editBarrier"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -78,5 +81,16 @@
     android:contentDescription="@string/save_post"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@android:drawable/ic_input_add"
+        android:contentDescription="@string/add_post"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

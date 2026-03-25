@@ -1,11 +1,18 @@
 package ru.krasnodarova.myfirstapp.adapter
+import android.content.Intent
+import android.net.Uri
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import ru.krasnodarova.myfirstapp.R
 import ru.krasnodarova.myfirstapp.databinding.CardPostBinding
+import ru.krasnodarova.myfirstapp.databinding.ItemVideoBinding
 import ru.krasnodarova.myfirstapp.dto.Post
 import java.text.DecimalFormat
+import androidx.core.net.toUri
 
 class PostViewHolder(
     private val binding: CardPostBinding,
@@ -18,35 +25,45 @@ class PostViewHolder(
             published.text = post.published
             content.text = post.content
 
-            likeCount.text = formatCount(post.likes)
-            shareCount.text = formatCount(post.shares)
-            viewsCount.text = formatCount(post.views)
+            like.isChecked = post.likedByMe
+            like.text = formatCount(post.likes)
+            share.text = formatCount(post.shares)
+            views.text = formatCount(post.views)
 
-            // Устанавливаем иконку лайка
-            like.setImageResource(
-                if (post.likedByMe) R.drawable.ic_favorite
-                else R.drawable.ic_favorite_border
-            )
+            // Обработка видео
+            if (post.video.isNullOrBlank()) {
+                // Если видео нет, скрываем контейнер
+                videoContainer.removeAllViews()
+                videoContainer.visibility = View.GONE
+            } else {
+                // Если видео есть, показываем контейнер и наполняем его
+                videoContainer.visibility = View.VISIBLE
+                videoContainer.removeAllViews()
+
+                // Инфлейтим layout видео
+                val videoBinding = ItemVideoBinding.inflate(LayoutInflater.from(itemView.context), videoContainer, true)
+
+                // Устанавливаем текст видео (можно показать короткую ссылку)
+                videoBinding.videoUrl.text = post.video
+
+                // Обработка клика на весь блок видео
+                videoContainer.setOnClickListener {
+                    openVideo(post.video!!)
+                }
+            }
 
             // Обработчики кликов
-            like.setOnClickListener {
-                listener.onLike(post)
-            }
+            like.setOnClickListener { listener.onLike(post) }
+            share.setOnClickListener { listener.onShare(post) }
+            avatar.setOnClickListener { listener.onAvatarClick(post) }
 
-            share.setOnClickListener {
-                listener.onShare(post)
-            }
-
-            avatar.setOnClickListener {
-                listener.onAvatarClick(post)
-            }
-
-            // Кнопка меню с PopupMenu
+            // Кнопка меню
             menu.setOnClickListener { view ->
                 showPopupMenu(view, post)
             }
         }
     }
+
 
     private fun showPopupMenu(anchor: View, post: Post) {
         PopupMenu(anchor.context, anchor).apply {
@@ -93,4 +110,28 @@ class PostViewHolder(
             else -> count.toString()
         }
     }
+    private fun openVideo(videoUrl: String) {
+        val intent = Intent(Intent.ACTION_VIEW, videoUrl.toUri())
+
+        // Получаем список приложений, которые могут обработать Intent
+        val packageManager = itemView.context.packageManager
+        val activities = packageManager.queryIntentActivities(intent, 0)
+
+        // Логируем результат
+        Log.d("VideoIntent", "queryIntentActivities: $activities")
+
+        val resolveInfo = intent.resolveActivity(packageManager)
+        Log.d("VideoIntent", "resolveActivity: $resolveInfo")
+
+        try {
+            if (intent.resolveActivity(itemView.context.packageManager) != null) {
+                itemView.context.startActivity(intent)
+            } else {
+                Toast.makeText(itemView.context, R.string.error_no_video_app, Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            Toast.makeText(itemView.context, R.string.error_cannot_open_video, Toast.LENGTH_SHORT).show()
+        }
+    }
+
 }
