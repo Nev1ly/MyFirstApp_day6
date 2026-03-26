@@ -41,7 +41,11 @@ class PostViewHolder(
                 videoContainer.removeAllViews()
 
                 // Инфлейтим layout видео
-                val videoBinding = ItemVideoBinding.inflate(LayoutInflater.from(itemView.context), videoContainer, true)
+                val videoBinding = ItemVideoBinding.inflate(
+                    LayoutInflater.from(itemView.context),
+                    videoContainer,
+                    true
+                )
 
                 // Устанавливаем текст видео (можно показать короткую ссылку)
                 videoBinding.videoUrl.text = post.video
@@ -60,6 +64,28 @@ class PostViewHolder(
             // Кнопка меню
             menu.setOnClickListener { view ->
                 showPopupMenu(view, post)
+            }// Обработка клика на всю карточку (кроме интерактивных элементов)
+            root.setOnClickListener {
+                listener.onPostClick(post)
+
+            }
+            // Обработчики для интерактивных элементов должны вызывать stopPropagation
+            // чтобы не срабатывал клик на root
+            like.setOnClickListener {
+                listener.onLike(post)
+                it.stopPropagation()  // предотвращаем всплытие события
+            }
+            share.setOnClickListener {
+                listener.onShare(post)
+                it.stopPropagation()
+            }
+            avatar.setOnClickListener {
+                listener.onAvatarClick(post)
+                it.stopPropagation()
+            }
+            menu.setOnClickListener { view ->
+                showPopupMenu(view, post)
+                // menu не должен вызывать onPostClick
             }
         }
     }
@@ -133,5 +159,8 @@ class PostViewHolder(
             Toast.makeText(itemView.context, R.string.error_cannot_open_video, Toast.LENGTH_SHORT).show()
         }
     }
-
+fun View.stopPropagation() {
+    isClickable = true
+    setOnClickListener {}
+    }
 }
