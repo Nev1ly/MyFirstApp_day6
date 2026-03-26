@@ -3,15 +3,18 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import ru.krasnodarova.myfirstapp.db.AppDb
 import ru.krasnodarova.myfirstapp.dto.Post
 import ru.krasnodarova.myfirstapp.repository.PostRepository
 import ru.krasnodarova.myfirstapp.repository.PostRepositoryFileImpl  // или другую реализацию
+import ru.krasnodarova.myfirstapp.repository.PostRepositorySQLiteImpl
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
 
-    // Используем файловую реализацию с передачей контекста приложения
-    private val repository: PostRepository = PostRepositoryFileImpl(application)
-
+    // Используем SQLite репозиторий
+    private val repository: PostRepository = PostRepositorySQLiteImpl(
+        AppDb.getInstance(application).postDao
+    )
     val data: LiveData<List<Post>> = repository.getAll()
 
     private val empty = Post(

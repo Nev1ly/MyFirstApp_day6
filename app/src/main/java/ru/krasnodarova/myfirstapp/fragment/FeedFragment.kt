@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.krasnodarova.myfirstapp.R
@@ -17,7 +18,7 @@ import ru.krasnodarova.myfirstapp.viewmodel.PostViewModel
 class FeedFragment : Fragment() {
     private var _binding: FragmentFeedBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: PostViewModel by viewModels()
+    private val viewModel: PostViewModel by activityViewModels()
     private val interactionListener = object : OnPostInteractionListener {
         override fun onLike(post: Post) {
             viewModel.likeById(post.id)
@@ -34,8 +35,9 @@ class FeedFragment : Fragment() {
         }
 
         override fun onEdit(post: Post) {
-            // Пока оставим заглушку, реализуем позже
-            Toast.makeText(requireContext(), "Edit post ${post.id}", Toast.LENGTH_SHORT).show()
+            // Запускаем редактирование существующего поста с текстом
+            viewModel.edit(post) // post — выбранный пост с id != 0
+            findNavController().navigate(R.id.newPostFragment)
         }
         override fun onRemove(post: Post) {
             viewModel.removeById(post.id)
