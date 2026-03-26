@@ -154,3 +154,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
+
+private fun PostViewModel.saveEditedPost(
+    editingPostId: Long,
+    text: String
+) {
+}
